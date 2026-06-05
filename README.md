@@ -7,6 +7,8 @@ Hey sboyina-Git!
 Mona here. I'm done preparing your exercise. Hope you enjoy! 💚
 
 > Dummy PR: this change is just to create a separate pull request for workflow testing.
+>
+> This update is intended to trigger the Step 2 workflow via a review request.
 
 Remember, it's self-paced so feel free to take a break! ☕️
 
