@@ -3,6 +3,8 @@ name: Step 3
 on:
   pull_request:
     types:
+      - opened
+      - reopened
       - review_requested
 
 permissions:
