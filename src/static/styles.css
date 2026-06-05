@@ -73,6 +73,35 @@ header h2 {
   font-size: 1.2rem;
 }
 
+.announcement-banner {
+  background-color: #4caf50;
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-weight: bold;
+}
+
+.announcement-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.close-announcement {
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
+.announcement-banner.hidden {
+  display: none;
+}
+
 main {
   display: flex;
   flex-wrap: wrap;

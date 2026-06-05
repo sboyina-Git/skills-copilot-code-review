@@ -24,6 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("login-form");
   const closeLoginModal = document.querySelector(".close-login-modal");
   const loginMessage = document.getElementById("login-message");
+  const announcementBanner = document.getElementById("announcement-banner");
+  const closeAnnouncementButton = document.getElementById("close-announcement");
 
   // Activity categories with corresponding colors
   const activityTypes = {
@@ -164,6 +166,21 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       document.body.classList.add("not-authenticated");
     }
+  }
+
+  function initializeAnnouncementBanner() {
+    if (!announcementBanner || !closeAnnouncementButton) {
+      return;
+    }
+
+    if (localStorage.getItem("announcementDismissed") === "true") {
+      announcementBanner.classList.add("hidden");
+    }
+
+    closeAnnouncementButton.addEventListener("click", () => {
+      announcementBanner.classList.add("hidden");
+      localStorage.setItem("announcementDismissed", "true");
+    });
   }
 
   // Login function
@@ -864,5 +881,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initialize app
   checkAuthentication();
   initializeFilters();
+  initializeAnnouncementBanner();
   fetchActivities();
 });
