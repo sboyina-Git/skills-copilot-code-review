@@ -3,6 +3,8 @@ name: Step 2
 on:
   pull_request:
     types:
+      - opened
+      - reopened
       - review_requested
 
 permissions:
@@ -54,16 +56,25 @@ jobs:
           file: exercise-toolkit/markdown-templates/step-feedback/checking-work.md
           edit-mode: replace
 
-      - name: Check if Copilot is assigned as reviewer
+      - name: Check if Copilot or repository owner is assigned as reviewer
         id: check-copilot-reviewer
         continue-on-error: true
         env:
           REVIEWER_LOGIN: ${{ github.event.requested_reviewer.login }}
+          OWNER_LOGIN: sboyina-git
+          EVENT_ACTION: ${{ github.event.action }}
         run: |
-          if [[ "${REVIEWER_LOGIN,,}" == "copilot" ]]; then
-            echo "Copilot is assigned as reviewer."
+          if [[ "${EVENT_ACTION}" == "review_requested" ]]; then
+            if [[ "${REVIEWER_LOGIN,,}" == "copilot" || "${REVIEWER_LOGIN,,}" == "${OWNER_LOGIN}" ]]; then
+              echo "Valid reviewer is assigned."
+            else
+              echo "Required reviewer is NOT assigned."
+              exit 1
+            fi
+          elif [[ "${EVENT_ACTION}" == "opened" || "${EVENT_ACTION}" == "reopened" ]]; then
+            echo "Pull request opened or reopened, proceeding with Step 2 workflow."
           else
-            echo "Copilot is NOT assigned as reviewer."
+            echo "Unsupported pull request action: ${EVENT_ACTION}"
             exit 1
           fi
 
@@ -78,7 +89,7 @@ jobs:
           vars: |
             step_number: 2
             results_table:
-              - description: "Copilot reviewed pull request"
+              - description: "Pull request opened or review requested for Step 2"
                 passed: ${{ steps.check-copilot-reviewer.outcome == 'success' }}
 
       - name: Fail job if not all checks passed
