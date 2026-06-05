@@ -43,8 +43,8 @@ def parse_date_field(date_value: Optional[str], field_name: str) -> Optional[str
 
 
 def build_announcement_response(announcement: Dict[str, Any]) -> Dict[str, Any]:
-    announcement_id = announcement.pop("_id", None)
-    return {"id": announcement_id, **announcement}
+    announcement_id = announcement.get("_id")
+    return {"id": announcement_id, **{k: v for k, v in announcement.items() if k != "_id"}}
 
 
 @router.get("", response_model=List[Dict[str, Any]])
@@ -114,8 +114,8 @@ def update_announcement(announcement_id: str, payload: AnnouncementPayload, teac
         }
     )
 
-    if result.modified_count == 0:
-        raise HTTPException(status_code=500, detail="Failed to update announcement")
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Announcement not found")
 
     announcement = announcements_collection.find_one({"_id": announcement_id})
     return build_announcement_response(announcement)
