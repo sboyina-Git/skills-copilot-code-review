@@ -4,6 +4,7 @@ on:
   pull_request:
     types:
       - opened
+      - reopened
       - review_requested
 
 permissions:
@@ -70,8 +71,8 @@ jobs:
               echo "Required reviewer is NOT assigned."
               exit 1
             fi
-          elif [[ "${EVENT_ACTION}" == "opened" ]]; then
-            echo "Pull request opened, proceeding with Step 2 workflow."
+          elif [[ "${EVENT_ACTION}" == "opened" || "${EVENT_ACTION}" == "reopened" ]]; then
+            echo "Pull request opened or reopened, proceeding with Step 2 workflow."
           else
             echo "Unsupported pull request action: ${EVENT_ACTION}"
             exit 1
