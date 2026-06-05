@@ -16,26 +16,31 @@
       <h1>Mergington High School</h1>
       <h2>Extracurricular Activities</h2>
       <div id="user-controls">
-        <div id="user-status">
-          <button id="login-button" class="icon-button">
-            <span class="user-icon">👤</span>
-            <span>Login</span>
+        <div class="header-actions">
+          <button id="manage-announcements-button" class="icon-button hidden" aria-label="Manage announcements">
+            📣 Announcements
           </button>
-          <div id="user-info" class="hidden">
-            <span id="display-name"></span>
-            <button id="logout-button">Logout</button>
+          <div id="user-status">
+            <button id="login-button" class="icon-button">
+              <span class="user-icon">👤</span>
+              <span>Login</span>
+            </button>
+            <div id="user-info" class="hidden">
+              <span id="display-name"></span>
+              <button id="logout-button">Logout</button>
+            </div>
           </div>
         </div>
       </div>
     </header>
 
-    <div id="announcement-banner" class="announcement-banner">
+    <div id="announcement-banner" class="announcement-banner hidden" role="region" aria-live="polite">
       <div class="announcement-content">
-        <span>� Activity registration is open until the end of the month. Don't lose your spot!</span>
+        <span id="announcement-text"></span>
+        <button id="close-announcement" class="close-announcement" aria-label="Dismiss announcement">
+          ×
+        </button>
       </div>
-      <button id="close-announcement" class="close-announcement" aria-label="Dismiss announcement">
-        ×
-      </button>
     </div>
 
     <main>
@@ -140,6 +145,48 @@
           <button type="submit">Login</button>
         </form>
         <div id="login-message" class="hidden message"></div>
+      </div>
+    </div>
+
+    <!-- Announcement Manager Modal -->
+    <div id="announcement-manager-modal" class="modal hidden" aria-hidden="true">
+      <div class="modal-content announcement-manager-modal-content">
+        <span class="close-announcement-manager">&times;</span>
+        <h3>Manage Announcements</h3>
+        <div class="announcement-manager">
+          <div class="announcement-manager-list">
+            <div class="announcement-manager-header">
+              <strong>Existing announcements</strong>
+              <button id="new-announcement-button" class="secondary-button">New announcement</button>
+            </div>
+            <div id="announcement-items" class="announcement-items"></div>
+          </div>
+
+          <div class="announcement-form-panel">
+            <form id="announcement-form" class="announcement-form">
+              <input type="hidden" id="announcement-id" value="" />
+              <div class="form-group">
+                <label for="announcement-message">Message</label>
+                <textarea id="announcement-message" rows="4" required placeholder="Write the announcement message"></textarea>
+              </div>
+              <div class="form-group two-column">
+                <div>
+                  <label for="announcement-start-date">Start date (optional)</label>
+                  <input type="date" id="announcement-start-date" />
+                </div>
+                <div>
+                  <label for="announcement-expiration-date">Expiration date</label>
+                  <input type="date" id="announcement-expiration-date" required />
+                </div>
+              </div>
+              <div class="announcement-form-actions">
+                <button type="submit" class="primary-button">Save announcement</button>
+                <button type="button" id="cancel-announcement-button" class="secondary-button">Cancel</button>
+              </div>
+            </form>
+            <div id="announcement-manager-message" class="hidden message"></div>
+          </div>
+        </div>
       </div>
     </div>
 
